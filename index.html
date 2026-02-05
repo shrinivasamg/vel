@@ -15,6 +15,7 @@ body {
     font-family: 'Poppins', sans-serif;
     overflow: hidden;
     position: relative;
+    color: white;
 }
 
 /* Center container */
@@ -26,26 +27,26 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: white;
     z-index: 2;
 }
 
 h1 {
     font-size: clamp(2.2rem, 6vw, 4rem);
-    margin-bottom: 30px;
-    text-shadow: 0 0 20px rgba(255,255,255,0.7);
+    margin-bottom: 25px;
+    text-shadow: 0 0 20px rgba(255,255,255,0.8);
 }
 
 /* Buttons */
-#yesBtn {
-    font-size: clamp(1.6rem, 4vw, 2.8rem);
-    padding: 18px 60px;
-    border-radius: 60px;
+#yesBtn, #nextBtn {
+    font-size: clamp(1.4rem, 4vw, 2.4rem);
+    padding: 15px 55px;
+    border-radius: 50px;
     border: none;
     background: linear-gradient(45deg, #ff0844, #ffb199);
     color: white;
     cursor: pointer;
     box-shadow: 0 0 30px rgba(255,0,80,0.9);
+    margin-top: 20px;
 }
 
 #maybeBtn {
@@ -60,12 +61,12 @@ h1 {
     z-index: 3;
 }
 
-/* Celebration */
-#celebration {
+/* Sections */
+#celebration, #proposal {
     display: none;
 }
 
-#celebration img {
+#celebration img, #proposal img {
     width: min(320px, 85%);
     margin-top: 20px;
     border-radius: 20px;
@@ -81,6 +82,17 @@ h1 {
 @keyframes floatUp {
     from { transform: translateY(0); opacity: 1; }
     to { transform: translateY(-900px); opacity: 0; }
+}
+
+/* Flowers */
+.flower {
+    position: absolute;
+    animation: fall 7s linear infinite;
+}
+
+@keyframes fall {
+    from { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+    to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
 }
 
 /* Fireworks */
@@ -101,45 +113,56 @@ h1 {
 
 <body>
 
-<!-- MAY BE BUTTON floats freely -->
+<!-- MAY BE button floats freely -->
 <button id="maybeBtn">May be 😜</button>
 
 <div class="container">
-    <h1 id="title">Will you be my Valentine? 💖</h1>
+
+    <!-- Initial -->
+    <h1 id="title">Shree, will you be my Valentine? 💖</h1>
     <button id="yesBtn" onclick="sayYes()">YES 💍</button>
 
+    <!-- Celebration stage -->
     <div id="celebration">
-        <h1>She said YES 🎉💖</h1>
+        <h1>Shree said YES 🎉💖</h1>
         <img src="https://media.giphy.com/media/3oz8xAFtqoOUUrsh7W/giphy.gif" alt="Celebration">
         <p style="font-size:1.2rem;margin-top:15px;">
-            This moment means everything ❤️
+            You just made my world brighter, Shree ❤️
+        </p>
+        <button id="nextBtn" onclick="showProposal()">Come closer 💕</button>
+    </div>
+
+    <!-- Proposal stage -->
+    <div id="proposal">
+        <h1>Shree, will you marry me? 💍</h1>
+        <img src="https://i.imgur.com/9QeK6ZL.png" alt="Proposal">
+        <p style="font-size:1.3rem;margin-top:15px;">
+            From today… it’s always <strong>us</strong> ❤️
         </p>
     </div>
+
 </div>
 
-<audio id="music" loop>
+<!-- Music -->
+<audio id="music1" loop>
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
+</audio>
+
+<audio id="music2" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">
 </audio>
 
 <script>
 const maybeBtn = document.getElementById("maybeBtn");
 
-/* Move MAY BE anywhere on page on every hover */
+/* Move MAY BE anywhere on page */
 function moveAnywhere() {
     const maxX = window.innerWidth - maybeBtn.offsetWidth;
     const maxY = window.innerHeight - maybeBtn.offsetHeight;
-
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
-    maybeBtn.style.left = x + "px";
-    maybeBtn.style.top = y + "px";
+    maybeBtn.style.left = Math.random() * maxX + "px";
+    maybeBtn.style.top  = Math.random() * maxY + "px";
 }
-
-/* Initial position */
 moveAnywhere();
-
-/* Every hover → move */
 maybeBtn.addEventListener("mouseenter", moveAnywhere);
 
 /* YES clicked */
@@ -149,10 +172,21 @@ function sayYes() {
     maybeBtn.style.display = "none";
 
     document.getElementById("celebration").style.display = "block";
-    document.getElementById("music").play();
+    document.getElementById("music1").play();
 
     hearts();
     fireworks();
+}
+
+/* Show proposal */
+function showProposal() {
+    document.getElementById("celebration").style.display = "none";
+    document.getElementById("proposal").style.display = "block";
+
+    document.getElementById("music1").pause();
+    document.getElementById("music2").play();
+
+    flowers();
 }
 
 /* Hearts */
@@ -172,7 +206,7 @@ function hearts() {
 /* Fireworks */
 function fireworks() {
     setInterval(() => {
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 8; i++) {
             const f = document.createElement("div");
             f.className = "firework";
             f.style.left = Math.random() * window.innerWidth + "px";
@@ -182,6 +216,19 @@ function fireworks() {
             setTimeout(() => f.remove(), 1500);
         }
     }, 300);
+}
+
+/* Flower shower */
+function flowers() {
+    setInterval(() => {
+        const fl = document.createElement("div");
+        fl.className = "flower";
+        fl.innerHTML = "🌸";
+        fl.style.left = Math.random() * window.innerWidth + "px";
+        fl.style.fontSize = (18 + Math.random() * 25) + "px";
+        document.body.appendChild(fl);
+        setTimeout(() => fl.remove(), 7000);
+    }, 250);
 }
 </script>
 
