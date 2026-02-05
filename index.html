@@ -14,7 +14,6 @@ body {
     background: radial-gradient(circle at top, #ffb3c6, #7a0019);
     font-family: 'Poppins', sans-serif;
     overflow: hidden;
-    position: relative;
     color: white;
 }
 
@@ -28,7 +27,6 @@ body.blur::before {
     z-index: 1;
 }
 
-/* Center container */
 .container {
     position: absolute;
     inset: 0;
@@ -42,11 +40,10 @@ body.blur::before {
 
 h1 {
     font-size: clamp(2.2rem, 6vw, 4rem);
-    margin-bottom: 25px;
+    margin-bottom: 18px;
     text-shadow: 0 0 20px rgba(255,255,255,0.8);
 }
 
-/* Buttons */
 .btn {
     font-size: clamp(1.3rem, 4vw, 2.3rem);
     padding: 15px 55px;
@@ -56,12 +53,12 @@ h1 {
     color: white;
     cursor: pointer;
     box-shadow: 0 0 30px rgba(255,0,80,0.9);
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 /* MAY BE button */
 #maybeBtn {
-    position: absolute;
+    position: relative;          /* starts below YES */
     padding: 8px 18px;
     font-size: 0.95rem;
     background: rgba(0,0,0,0.6);
@@ -69,7 +66,7 @@ h1 {
     border-radius: 20px;
     border: 1px solid rgba(255,255,255,0.4);
     cursor: not-allowed;
-    z-index: 3;
+    margin-top: 12px;
 }
 
 /* Sections */
@@ -77,66 +74,42 @@ h1 {
     display: none;
 }
 
-/* Proposal spotlight card */
+/* Proposal card */
 .proposal-card {
-    position: relative;
     background: rgba(255,255,255,0.15);
-    padding: 20px;
+    padding: 25px;
     border-radius: 25px;
     box-shadow: 0 0 60px rgba(255,105,180,0.9);
-    z-index: 5;
 }
 
 .proposal-card img {
-    width: min(360px, 90%);
-    background: white;
-    padding: 15px;
+    width: min(320px, 90%);
     border-radius: 20px;
     box-shadow: 0 0 40px rgba(255,255,255,1);
 }
 
-/* Overlay text */
 .overlay-text {
-    position: absolute;
-    top: 15px;
-    left: 50%;
-    transform: translateX(-50%);
     background: rgba(0,0,0,0.6);
-    padding: 10px 25px;
+    display: inline-block;
+    padding: 8px 22px;
     border-radius: 30px;
     font-size: 1.3rem;
-    color: #ffd6e8;
-    box-shadow: 0 0 20px rgba(255,105,180,0.8);
+    margin-bottom: 12px;
 }
 
-/* Hearts */
-.heart {
+/* Animations */
+.heart, .petal {
     position: absolute;
-    animation: floatUp 6s linear infinite;
 }
+
+.heart { animation: floatUp 6s linear infinite; }
+.petal { animation: fall 8s linear infinite; }
+
 @keyframes floatUp {
     from { transform: translateY(0); opacity: 1; }
     to { transform: translateY(-900px); opacity: 0; }
 }
 
-/* Fireworks */
-.firework {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    animation: explode 1.5s ease-out forwards;
-}
-@keyframes explode {
-    from { transform: scale(1); opacity: 1; }
-    to { transform: scale(40); opacity: 0; }
-}
-
-/* 🌹 Rose petals */
-.petal {
-    position: absolute;
-    animation: fall 8s linear infinite;
-}
 @keyframes fall {
     from { transform: translateY(-50px) rotate(0deg); opacity: 1; }
     to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
@@ -146,39 +119,40 @@ h1 {
 
 <body>
 
-<!-- MAY BE button -->
-<button id="maybeBtn">May be 😜</button>
-
 <div class="container">
 
-    <!-- Stage 1 -->
+    <!-- STAGE 1 -->
     <h1 id="title">Shree, will you be my Valentine? 💖</h1>
     <button id="yesBtn" class="btn" onclick="sayYes()">YES 💍</button>
+    <button id="maybeBtn">May be 😜</button>
 
-    <!-- Stage 2 -->
+    <!-- STAGE 2 : CELEBRATION -->
     <div id="celebration">
         <h1>Shree said YES 🎉💖</h1>
-        <img style="width:320px;border-radius:20px;box-shadow:0 0 40px #fff;"
-             src="https://media.giphy.com/media/l0MYB8Ory7Hqefo9a/giphy.gif">
-        <p style="font-size:1.2rem;margin-top:15px;">
+
+        <!-- MULTIPLE PEOPLE DANCING GIF -->
+        <img src="https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif"
+             style="width:320px;border-radius:20px;box-shadow:0 0 40px #fff;">
+
+        <p style="font-size:1.2rem;margin-top:12px;">
             You just made my world brighter ❤️
         </p>
+
         <button class="btn" onclick="comeCloser()">Come closer 💕</button>
     </div>
 
-    <!-- Stage 3 -->
+    <!-- STAGE 3 : PROPOSAL -->
     <div id="proposal">
         <h1>Shree, will you marry me? 💍</h1>
 
         <div class="proposal-card">
             <div class="overlay-text">She said YES 💍</div>
 
-            <!-- ILLUSTRATED PROPOSAL IMAGE -->
-            <img src="https://raw.githubusercontent.com/undraw/undraw/master/illustrations/undraw_wedding_re_66hj.svg"
-                 alt="Illustrated proposal">
+            <!-- YOUR LOCAL ILLUSTRATED GIF -->
+            <img src="images/proposal.gif" alt="Cute proposal illustration">
         </div>
 
-        <p style="font-size:1.3rem;margin-top:20px;">
+        <p style="margin-top:15px;font-size:1.2rem;">
             From today… it’s always <strong>us</strong> ❤️
         </p>
 
@@ -187,7 +161,7 @@ h1 {
 
 </div>
 
-<!-- Music -->
+<!-- MUSIC -->
 <audio id="music1" loop>
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
 </audio>
@@ -197,49 +171,48 @@ h1 {
 
 <script>
 const maybeBtn = document.getElementById("maybeBtn");
+let moved = false;
 
-/* Move MAY BE anywhere */
-function moveAnywhere() {
+/* MAY BE moves only after first hover */
+maybeBtn.addEventListener("mouseenter", () => {
+    if (!moved) {
+        moved = true;
+        maybeBtn.style.position = "absolute";
+    }
     const maxX = window.innerWidth - maybeBtn.offsetWidth;
     const maxY = window.innerHeight - maybeBtn.offsetHeight;
     maybeBtn.style.left = Math.random() * maxX + "px";
     maybeBtn.style.top  = Math.random() * maxY + "px";
-}
-moveAnywhere();
-maybeBtn.addEventListener("mouseenter", moveAnywhere);
+});
 
-/* Stage 1 → 2 */
 function sayYes() {
-    document.getElementById("title").style.display = "none";
-    document.getElementById("yesBtn").style.display = "none";
+    title.style.display = "none";
+    yesBtn.style.display = "none";
     maybeBtn.style.display = "none";
 
-    document.getElementById("celebration").style.display = "block";
-    document.getElementById("music1").play();
+    celebration.style.display = "block";
+    music1.play();
 
     hearts();
-    fireworks();
 }
 
-/* Stage 2 → 3 */
 function comeCloser() {
-    document.getElementById("celebration").style.display = "none";
-    document.getElementById("proposal").style.display = "block";
+    celebration.style.display = "none";
+    proposal.style.display = "block";
 
     document.body.classList.add("blur");
 
-    document.getElementById("music1").pause();
-    document.getElementById("music2").play();
+    music1.pause();
+    music2.play();
 
-    rosePetals();
+    petals();
 }
 
-/* Replay */
 function replay() {
     location.reload();
 }
 
-/* Hearts */
+/* Effects */
 function hearts() {
     setInterval(() => {
         const h = document.createElement("div");
@@ -247,35 +220,17 @@ function hearts() {
         h.innerHTML = "❤️";
         h.style.left = Math.random() * window.innerWidth + "px";
         h.style.bottom = "0";
-        h.style.fontSize = (20 + Math.random() * 30) + "px";
         document.body.appendChild(h);
         setTimeout(() => h.remove(), 6000);
     }, 200);
 }
 
-/* Fireworks */
-function fireworks() {
-    setInterval(() => {
-        for (let i = 0; i < 8; i++) {
-            const f = document.createElement("div");
-            f.className = "firework";
-            f.style.left = Math.random() * window.innerWidth + "px";
-            f.style.top = Math.random() * window.innerHeight + "px";
-            f.style.background = `hsl(${Math.random()*360},100%,65%)`;
-            document.body.appendChild(f);
-            setTimeout(() => f.remove(), 1500);
-        }
-    }, 300);
-}
-
-/* 🌹 Rose petals */
-function rosePetals() {
+function petals() {
     setInterval(() => {
         const p = document.createElement("div");
         p.className = "petal";
         p.innerHTML = "🌹";
         p.style.left = Math.random() * window.innerWidth + "px";
-        p.style.fontSize = (18 + Math.random() * 26) + "px";
         document.body.appendChild(p);
         setTimeout(() => p.remove(), 8000);
     }, 250);
