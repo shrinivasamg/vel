@@ -19,7 +19,7 @@ body {
     color: white;
 }
 
-/* Blur during proposal */
+/* Blur background during proposal */
 body.blur::before {
     content: "";
     position: fixed;
@@ -43,6 +43,7 @@ body.blur::before {
 h1 {
     font-size: clamp(2rem, 6vw, 3.5rem);
     margin-bottom: 16px;
+    text-shadow: 0 0 20px rgba(255,255,255,0.8);
 }
 
 .btn {
@@ -54,6 +55,7 @@ h1 {
     color: white;
     box-shadow: 0 0 25px rgba(255,0,80,0.8);
     margin-top: 12px;
+    cursor: pointer;
 }
 
 .btn-group {
@@ -62,7 +64,7 @@ h1 {
     align-items: center;
 }
 
-/* MAY BE */
+/* MAY BE button */
 #maybeBtn {
     position: relative;
     font-size: 0.95rem;
@@ -77,12 +79,25 @@ h1 {
 
 .stage { display: none; }
 
+/* Celebration video */
+.celebration-video {
+    width: min(320px, 90%);
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(255,255,255,0.9);
+}
+
 /* Proposal card */
 .proposal-card {
     background: rgba(255,255,255,0.15);
     padding: 22px;
     border-radius: 22px;
     box-shadow: 0 0 50px rgba(255,105,180,0.9);
+}
+
+.proposal-card img {
+    width: min(320px, 90%);
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(255,255,255,1);
 }
 
 .overlay-text {
@@ -126,27 +141,39 @@ h1 {
         </div>
     </div>
 
-    <!-- STAGE 2 -->
+    <!-- STAGE 2 : CELEBRATION -->
     <div id="stage2" class="stage">
         <h1>Shree said YES 🎉💖</h1>
-        <div id="celebrationImg"></div>
+
+        <video class="celebration-video"
+               autoplay
+               muted
+               loop
+               playsinline>
+            <source src="images/h269k4g2nsve1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
         <p>You just made my world brighter ❤️</p>
         <button class="btn" onclick="comeCloser()">Come closer 💕</button>
     </div>
 
-    <!-- STAGE 3 -->
+    <!-- STAGE 3 : PROPOSAL -->
     <div id="stage3" class="stage">
         <h1>Shree, will you marry me? 💍</h1>
+
         <div class="proposal-card">
             <div class="overlay-text">She said YES 💍</div>
-            <div id="proposalImg"></div>
+            <img src="images/proposal.gif" alt="Cute proposal illustration">
         </div>
+
         <p>From today… it’s always <strong>us</strong> ❤️</p>
         <button class="btn" onclick="replay()">Replay 🔁</button>
     </div>
 
 </div>
 
+<!-- MUSIC -->
 <audio id="music1" loop>
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
 </audio>
@@ -158,7 +185,7 @@ h1 {
 const maybeBtn = document.getElementById("maybeBtn");
 let moved = false;
 
-/* MAY BE movement – mobile safe */
+/* MAY BE movement (mobile safe) */
 function moveMaybe() {
     if (!moved) {
         moved = true;
@@ -174,15 +201,10 @@ function moveMaybe() {
 maybeBtn.addEventListener("mouseenter", moveMaybe);
 maybeBtn.addEventListener("touchstart", moveMaybe);
 
-/* STAGES */
+/* STAGE FLOW */
 function sayYes() {
     stage1.style.display = "none";
     stage2.style.display = "block";
-
-    celebrationImg.innerHTML = "";
-    celebrationImg.innerHTML =
-        `<img src="https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif"
-              style="width:300px;border-radius:20px;box-shadow:0 0 40px #fff;">`;
 
     music1.play();
     hearts();
@@ -192,11 +214,6 @@ function comeCloser() {
     stage2.style.display = "none";
     stage3.style.display = "block";
     document.body.classList.add("blur");
-
-    proposalImg.innerHTML = "";
-    proposalImg.innerHTML =
-        `<img src="images/proposal.gif"
-              style="width:300px;border-radius:20px;box-shadow:0 0 40px #fff;">`;
 
     music1.pause();
     music2.play();
@@ -216,8 +233,8 @@ function hearts() {
         h.style.left = Math.random() * innerWidth + "px";
         h.style.bottom = "0";
         document.body.appendChild(h);
-        setTimeout(()=>h.remove(),6000);
-    },200);
+        setTimeout(() => h.remove(), 6000);
+    }, 200);
 }
 
 function petals() {
@@ -227,8 +244,8 @@ function petals() {
         p.innerHTML = "🌹";
         p.style.left = Math.random() * innerWidth + "px";
         document.body.appendChild(p);
-        setTimeout(()=>p.remove(),8000);
-    },250);
+        setTimeout(() => p.remove(), 8000);
+    }, 250);
 }
 </script>
 
