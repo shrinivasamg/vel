@@ -5,76 +5,59 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For Shree 💖</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 body {
     margin: 0;
     height: 100vh;
     background: radial-gradient(circle at top, #ffb3c6, #7a0019);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
     font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    position: relative;
 }
 
-/* Container */
+/* Center container */
 .container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 20px;
-    max-width: 90%;
-    z-index: 10;
+    color: white;
+    z-index: 2;
 }
 
-/* Title */
-#title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    color: #fff;
-    text-shadow: 0 0 25px rgba(255,105,180,0.9);
-    animation: glow 2.5s infinite alternate;
-}
-
-@keyframes glow {
-    from { text-shadow: 0 0 15px #fff; }
-    to   { text-shadow: 0 0 35px #ff85a2; }
-}
-
-/* Typing */
-#typing {
-    font-size: clamp(1.2rem, 3vw, 1.8rem);
-    color: #ffe6ec;
-    margin: 25px 0 40px;
+h1 {
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    margin-bottom: 30px;
+    text-shadow: 0 0 20px rgba(255,255,255,0.7);
 }
 
 /* Buttons */
-#buttons {
-    position: relative;
-    height: 220px;
-}
-
 #yesBtn {
-    font-size: clamp(1.9rem, 4vw, 3.2rem);
-    padding: 22px 75px;
-    border-radius: 90px;
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    padding: 18px 60px;
+    border-radius: 60px;
     border: none;
     background: linear-gradient(45deg, #ff0844, #ffb199);
     color: white;
     cursor: pointer;
-    box-shadow: 0 0 35px rgba(255,0,80,0.9);
+    box-shadow: 0 0 30px rgba(255,0,80,0.9);
 }
 
 #maybeBtn {
     position: absolute;
-    font-size: 0.95rem;
     padding: 8px 18px;
+    font-size: 0.95rem;
     background: rgba(0,0,0,0.6);
     color: white;
     border-radius: 20px;
     border: 1px solid rgba(255,255,255,0.4);
-    top: 120px;
-    left: 55%;
+    cursor: not-allowed;
+    z-index: 3;
 }
 
 /* Celebration */
@@ -83,10 +66,10 @@ body {
 }
 
 #celebration img {
-    width: min(300px, 85%);
-    border-radius: 20px;
+    width: min(320px, 85%);
     margin-top: 20px;
-    box-shadow: 0 0 40px rgba(255,255,255,0.8);
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(255,255,255,0.9);
 }
 
 /* Hearts */
@@ -118,24 +101,20 @@ body {
 
 <body>
 
+<!-- MAY BE BUTTON floats freely -->
+<button id="maybeBtn">May be 😜</button>
+
 <div class="container">
-
     <h1 id="title">Will you be my Valentine? 💖</h1>
-    <div id="typing">Shree 💕</div>
-
-    <div id="buttons">
-        <button id="yesBtn" onclick="sayYes()">YES 💍</button>
-        <button id="maybeBtn" onmouseover="moveAround()">May be 😜</button>
-    </div>
+    <button id="yesBtn" onclick="sayYes()">YES 💍</button>
 
     <div id="celebration">
-        <h1>She Said YES 🎉💖</h1>
-        <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" alt="Celebration">
-        <p style="color:white;font-size:1.3rem;margin-top:15px;">
+        <h1>She said YES 🎉💖</h1>
+        <img src="https://media.giphy.com/media/3oz8xAFtqoOUUrsh7W/giphy.gif" alt="Celebration">
+        <p style="font-size:1.2rem;margin-top:15px;">
             This moment means everything ❤️
         </p>
     </div>
-
 </div>
 
 <audio id="music" loop>
@@ -143,26 +122,31 @@ body {
 </audio>
 
 <script>
-/* MAY BE moves around (bounded) */
-function moveAround() {
-    const btn = document.getElementById("maybeBtn");
-    const container = document.getElementById("buttons");
+const maybeBtn = document.getElementById("maybeBtn");
 
-    const maxX = container.clientWidth - btn.offsetWidth;
-    const maxY = container.clientHeight - btn.offsetHeight;
+/* Move MAY BE anywhere on page on every hover */
+function moveAnywhere() {
+    const maxX = window.innerWidth - maybeBtn.offsetWidth;
+    const maxY = window.innerHeight - maybeBtn.offsetHeight;
 
     const x = Math.random() * maxX;
     const y = Math.random() * maxY;
 
-    btn.style.left = x + "px";
-    btn.style.top = y + "px";
+    maybeBtn.style.left = x + "px";
+    maybeBtn.style.top = y + "px";
 }
+
+/* Initial position */
+moveAnywhere();
+
+/* Every hover → move */
+maybeBtn.addEventListener("mouseenter", moveAnywhere);
 
 /* YES clicked */
 function sayYes() {
     document.getElementById("title").style.display = "none";
-    document.getElementById("typing").style.display = "none";
-    document.getElementById("buttons").style.display = "none";
+    document.getElementById("yesBtn").style.display = "none";
+    maybeBtn.style.display = "none";
 
     document.getElementById("celebration").style.display = "block";
     document.getElementById("music").play();
@@ -197,7 +181,7 @@ function fireworks() {
             document.body.appendChild(f);
             setTimeout(() => f.remove(), 1500);
         }
-    }, 250);
+    }, 300);
 }
 </script>
 
