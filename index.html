@@ -37,7 +37,7 @@ h1 {
 }
 
 /* Buttons */
-#yesBtn, #nextBtn {
+.btn {
     font-size: clamp(1.4rem, 4vw, 2.4rem);
     padding: 15px 55px;
     border-radius: 50px;
@@ -78,7 +78,6 @@ h1 {
     position: absolute;
     animation: floatUp 6s linear infinite;
 }
-
 @keyframes floatUp {
     from { transform: translateY(0); opacity: 1; }
     to { transform: translateY(-900px); opacity: 0; }
@@ -89,7 +88,6 @@ h1 {
     position: absolute;
     animation: fall 7s linear infinite;
 }
-
 @keyframes fall {
     from { transform: translateY(-50px) rotate(0deg); opacity: 1; }
     to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
@@ -103,7 +101,6 @@ h1 {
     border-radius: 50%;
     animation: explode 1.5s ease-out forwards;
 }
-
 @keyframes explode {
     from { transform: scale(1); opacity: 1; }
     to { transform: scale(40); opacity: 0; }
@@ -113,29 +110,29 @@ h1 {
 
 <body>
 
-<!-- MAY BE button floats freely -->
+<!-- MAY BE button -->
 <button id="maybeBtn">May be 😜</button>
 
 <div class="container">
 
-    <!-- Initial -->
+    <!-- Stage 1 -->
     <h1 id="title">Shree, will you be my Valentine? 💖</h1>
-    <button id="yesBtn" onclick="sayYes()">YES 💍</button>
+    <button id="yesBtn" class="btn" onclick="sayYes()">YES 💍</button>
 
-    <!-- Celebration stage -->
+    <!-- Stage 2 -->
     <div id="celebration">
         <h1>Shree said YES 🎉💖</h1>
-        <img src="https://media.giphy.com/media/3oz8xAFtqoOUUrsh7W/giphy.gif" alt="Celebration">
+        <img src="https://media.giphy.com/media/3oz8xAFtqoOUUrsh7W/giphy.gif">
         <p style="font-size:1.2rem;margin-top:15px;">
-            You just made my world brighter, Shree ❤️
+            You just made my world brighter ❤️
         </p>
-        <button id="nextBtn" onclick="showProposal()">Come closer 💕</button>
+        <button class="btn" onclick="comeCloser()">Come closer 💕</button>
     </div>
 
-    <!-- Proposal stage -->
+    <!-- Stage 3 -->
     <div id="proposal">
         <h1>Shree, will you marry me? 💍</h1>
-        <img src="https://i.imgur.com/9QeK6ZL.png" alt="Proposal">
+        <img src="https://i.imgur.com/9QeK6ZL.png">
         <p style="font-size:1.3rem;margin-top:15px;">
             From today… it’s always <strong>us</strong> ❤️
         </p>
@@ -165,7 +162,7 @@ function moveAnywhere() {
 moveAnywhere();
 maybeBtn.addEventListener("mouseenter", moveAnywhere);
 
-/* YES clicked */
+/* Stage 1 → Stage 2 */
 function sayYes() {
     document.getElementById("title").style.display = "none";
     document.getElementById("yesBtn").style.display = "none";
@@ -178,8 +175,8 @@ function sayYes() {
     fireworks();
 }
 
-/* Show proposal */
-function showProposal() {
+/* Stage 2 → Stage 3 */
+function comeCloser() {
     document.getElementById("celebration").style.display = "none";
     document.getElementById("proposal").style.display = "block";
 
