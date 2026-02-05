@@ -8,6 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
+* { box-sizing: border-box; }
+
 body {
     margin: 0;
     height: 100vh;
@@ -17,7 +19,7 @@ body {
     color: white;
 }
 
-/* Blur background during proposal */
+/* Blur during proposal */
 body.blur::before {
     content: "";
     position: fixed;
@@ -27,9 +29,8 @@ body.blur::before {
     z-index: 1;
 }
 
-/* Center container */
 .container {
-    position: absolute;
+    position: fixed;
     inset: 0;
     display: flex;
     flex-direction: column;
@@ -40,72 +41,58 @@ body.blur::before {
 }
 
 h1 {
-    font-size: clamp(2.2rem, 6vw, 4rem);
-    margin-bottom: 18px;
-    text-shadow: 0 0 20px rgba(255,255,255,0.8);
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    margin-bottom: 16px;
 }
 
 .btn {
-    font-size: clamp(1.3rem, 4vw, 2.3rem);
-    padding: 15px 55px;
-    border-radius: 50px;
+    font-size: 1.4rem;
+    padding: 14px 50px;
+    border-radius: 40px;
     border: none;
     background: linear-gradient(45deg, #ff0844, #ffb199);
     color: white;
-    cursor: pointer;
-    box-shadow: 0 0 30px rgba(255,0,80,0.9);
+    box-shadow: 0 0 25px rgba(255,0,80,0.8);
     margin-top: 12px;
 }
 
-/* Button group ensures mobile alignment */
 .btn-group {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* MAY BE button */
+/* MAY BE */
 #maybeBtn {
-    position: relative;          /* stable initially */
-    padding: 8px 18px;
+    position: relative;
     font-size: 0.95rem;
+    padding: 8px 18px;
+    margin-top: 10px;
     background: rgba(0,0,0,0.6);
     color: white;
     border-radius: 20px;
     border: 1px solid rgba(255,255,255,0.4);
     cursor: not-allowed;
-    margin-top: 10px;
 }
 
-/* Sections */
-#celebration, #proposal {
-    display: none;
-}
+.stage { display: none; }
 
 /* Proposal card */
 .proposal-card {
     background: rgba(255,255,255,0.15);
-    padding: 25px;
-    border-radius: 25px;
-    box-shadow: 0 0 60px rgba(255,105,180,0.9);
-}
-
-.proposal-card img {
-    width: min(320px, 90%);
-    border-radius: 20px;
-    box-shadow: 0 0 40px rgba(255,255,255,1);
+    padding: 22px;
+    border-radius: 22px;
+    box-shadow: 0 0 50px rgba(255,105,180,0.9);
 }
 
 .overlay-text {
     background: rgba(0,0,0,0.6);
-    display: inline-block;
-    padding: 8px 22px;
-    border-radius: 30px;
-    font-size: 1.3rem;
+    padding: 8px 20px;
+    border-radius: 25px;
     margin-bottom: 12px;
 }
 
-/* Animations */
+/* Effects */
 .heart, .petal {
     position: fixed;
     pointer-events: none;
@@ -120,7 +107,7 @@ h1 {
 }
 
 @keyframes fall {
-    from { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+    from { transform: translateY(-40px) rotate(0deg); opacity: 1; }
     to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
 }
 </style>
@@ -131,15 +118,16 @@ h1 {
 <div class="container">
 
     <!-- STAGE 1 -->
-    <h1 id="title">Shree, will you be my Valentine? 💖</h1>
-
-    <div class="btn-group">
-        <button id="yesBtn" class="btn" onclick="sayYes()">YES 💍</button>
-        <button id="maybeBtn">May be 😜</button>
+    <div id="stage1">
+        <h1>Shree, will you be my Valentine? 💖</h1>
+        <div class="btn-group">
+            <button class="btn" onclick="sayYes()">YES 💍</button>
+            <button id="maybeBtn">May be 😜</button>
+        </div>
     </div>
 
     <!-- STAGE 2 -->
-    <div id="celebration">
+    <div id="stage2" class="stage">
         <h1>Shree said YES 🎉💖</h1>
         <div id="celebrationImg"></div>
         <p>You just made my world brighter ❤️</p>
@@ -147,21 +135,18 @@ h1 {
     </div>
 
     <!-- STAGE 3 -->
-    <div id="proposal">
+    <div id="stage3" class="stage">
         <h1>Shree, will you marry me? 💍</h1>
-
         <div class="proposal-card">
             <div class="overlay-text">She said YES 💍</div>
             <div id="proposalImg"></div>
         </div>
-
         <p>From today… it’s always <strong>us</strong> ❤️</p>
         <button class="btn" onclick="replay()">Replay 🔁</button>
     </div>
 
 </div>
 
-<!-- MUSIC -->
 <audio id="music1" loop>
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
 </audio>
@@ -171,45 +156,47 @@ h1 {
 
 <script>
 const maybeBtn = document.getElementById("maybeBtn");
-let hasMoved = false;
+let moved = false;
 
-/* MAY BE moves only after interaction (mobile-safe) */
+/* MAY BE movement – mobile safe */
 function moveMaybe() {
-    if (!hasMoved) {
-        hasMoved = true;
+    if (!moved) {
+        moved = true;
         maybeBtn.style.position = "fixed";
         maybeBtn.style.zIndex = "999";
     }
-    const maxX = window.innerWidth - maybeBtn.offsetWidth;
-    const maxY = window.innerHeight - maybeBtn.offsetHeight;
-    maybeBtn.style.left = Math.random() * maxX + "px";
-    maybeBtn.style.top  = Math.random() * maxY + "px";
+    maybeBtn.style.left =
+        Math.random() * (innerWidth - maybeBtn.offsetWidth) + "px";
+    maybeBtn.style.top =
+        Math.random() * (innerHeight - maybeBtn.offsetHeight) + "px";
 }
 
 maybeBtn.addEventListener("mouseenter", moveMaybe);
 maybeBtn.addEventListener("touchstart", moveMaybe);
 
+/* STAGES */
 function sayYes() {
-    title.style.display = "none";
-    document.querySelector(".btn-group").style.display = "none";
+    stage1.style.display = "none";
+    stage2.style.display = "block";
 
-    celebration.style.display = "block";
+    celebrationImg.innerHTML = "";
     celebrationImg.innerHTML =
         `<img src="https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif"
-              style="width:320px;border-radius:20px;box-shadow:0 0 40px #fff;">`;
+              style="width:300px;border-radius:20px;box-shadow:0 0 40px #fff;">`;
 
     music1.play();
     hearts();
 }
 
 function comeCloser() {
-    celebration.style.display = "none";
-    proposal.style.display = "block";
+    stage2.style.display = "none";
+    stage3.style.display = "block";
     document.body.classList.add("blur");
 
+    proposalImg.innerHTML = "";
     proposalImg.innerHTML =
         `<img src="images/proposal.gif"
-              style="width:320px;border-radius:20px;box-shadow:0 0 40px #fff;">`;
+              style="width:300px;border-radius:20px;box-shadow:0 0 40px #fff;">`;
 
     music1.pause();
     music2.play();
@@ -229,8 +216,8 @@ function hearts() {
         h.style.left = Math.random() * innerWidth + "px";
         h.style.bottom = "0";
         document.body.appendChild(h);
-        setTimeout(() => h.remove(), 6000);
-    }, 200);
+        setTimeout(()=>h.remove(),6000);
+    },200);
 }
 
 function petals() {
@@ -240,8 +227,8 @@ function petals() {
         p.innerHTML = "🌹";
         p.style.left = Math.random() * innerWidth + "px";
         document.body.appendChild(p);
-        setTimeout(() => p.remove(), 8000);
-    }, 250);
+        setTimeout(()=>p.remove(),8000);
+    },250);
 }
 </script>
 
