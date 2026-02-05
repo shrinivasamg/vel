@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
-/* ---------- BASE ---------- */
 body {
     margin: 0;
     height: 100vh;
@@ -18,13 +17,9 @@ body {
     align-items: center;
     overflow: hidden;
     font-family: 'Poppins', sans-serif;
-    transition: filter 2s ease;
 }
 
-body.blur {
-    filter: blur(4px);
-}
-
+/* Container */
 .container {
     text-align: center;
     padding: 20px;
@@ -32,40 +27,31 @@ body.blur {
     z-index: 10;
 }
 
-/* ---------- TITLE ---------- */
-h1 {
+/* Title */
+#title {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2.6rem, 6vw, 4.6rem);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
     color: #fff;
-    letter-spacing: 2px;
-    text-shadow:
-        0 0 12px rgba(255,255,255,0.6),
-        0 0 30px rgba(255,105,180,0.8);
-    animation: glow 3s infinite alternate;
+    text-shadow: 0 0 25px rgba(255,105,180,0.9);
+    animation: glow 2.5s infinite alternate;
 }
 
 @keyframes glow {
-    from { text-shadow: 0 0 12px #fff; }
-    to   { text-shadow: 0 0 40px #ff85a2; }
+    from { text-shadow: 0 0 15px #fff; }
+    to   { text-shadow: 0 0 35px #ff85a2; }
 }
 
-/* ---------- TYPING ---------- */
+/* Typing */
 #typing {
     font-size: clamp(1.2rem, 3vw, 1.8rem);
     color: #ffe6ec;
-    margin: 30px 0 45px;
-    animation: heartbeat 2.5s infinite;
+    margin: 25px 0 40px;
 }
 
-@keyframes heartbeat {
-    0%,100% { transform: scale(1); }
-    50%     { transform: scale(1.06); }
-}
-
-/* ---------- BUTTONS ---------- */
+/* Buttons */
 #buttons {
     position: relative;
-    height: 230px;
+    height: 220px;
 }
 
 #yesBtn {
@@ -77,206 +63,144 @@ h1 {
     color: white;
     cursor: pointer;
     box-shadow: 0 0 35px rgba(255,0,80,0.9);
-    animation: pulse 1.6s infinite;
-}
-
-@keyframes pulse {
-    0%   { box-shadow: 0 0 30px #ff4d6d; }
-    50%  { box-shadow: 0 0 65px #ffb3c6; }
-    100% { box-shadow: 0 0 30px #ff4d6d; }
 }
 
 #maybeBtn {
     position: absolute;
     font-size: 0.95rem;
     padding: 8px 18px;
-    background: rgba(0,0,0,0.55);
+    background: rgba(0,0,0,0.6);
     color: white;
-    border: 1px solid rgba(255,255,255,0.4);
     border-radius: 20px;
-    top: 130px;
+    border: 1px solid rgba(255,255,255,0.4);
+    top: 120px;
     left: 55%;
 }
 
-/* ---------- OVERLAY ---------- */
-#overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.45);
-    opacity: 0;
-    transition: opacity 2s ease;
-    z-index: 5;
-}
-
-/* ---------- PROPOSAL ---------- */
-#proposal {
+/* Celebration */
+#celebration {
     display: none;
 }
 
-.final-message {
-    margin-top: 35px;
-    color: #fff;
-    font-size: clamp(1.15rem, 2.8vw, 1.7rem);
-    line-height: 1.9;
+#celebration img {
+    width: min(300px, 85%);
+    border-radius: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 40px rgba(255,255,255,0.8);
 }
 
-.reveal-line {
-    opacity: 0;
-    transform: translateY(30px);
-    animation: reveal 2.4s ease forwards;
-}
-
-.reveal-line:nth-child(1){animation-delay:0.6s}
-.reveal-line:nth-child(2){animation-delay:2.1s}
-.reveal-line:nth-child(3){animation-delay:3.8s}
-.reveal-line:nth-child(4){animation-delay:5.5s}
-
-@keyframes reveal {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ---------- HEARTS ---------- */
+/* Hearts */
 .heart {
     position: absolute;
-    animation: floatUp 7s linear infinite;
+    animation: floatUp 6s linear infinite;
 }
 
 @keyframes floatUp {
     from { transform: translateY(0); opacity: 1; }
-    to   { transform: translateY(-1100px); opacity: 0; }
+    to { transform: translateY(-900px); opacity: 0; }
 }
 
-/* ---------- FIREWORKS ---------- */
+/* Fireworks */
 .firework {
     position: absolute;
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    animation: explode 1.6s ease-out forwards;
+    animation: explode 1.5s ease-out forwards;
 }
 
 @keyframes explode {
     from { transform: scale(1); opacity: 1; }
-    to   { transform: scale(45); opacity: 0; }
+    to { transform: scale(40); opacity: 0; }
 }
 </style>
 </head>
 
 <body>
 
-<div id="overlay"></div>
-
 <div class="container">
-    <h1>Shree 💖</h1>
-    <div id="typing"></div>
+
+    <h1 id="title">Will you be my Valentine? 💖</h1>
+    <div id="typing">Shree 💕</div>
 
     <div id="buttons">
         <button id="yesBtn" onclick="sayYes()">YES 💍</button>
-        <button id="maybeBtn" onmouseover="runAway()">May be 😜</button>
+        <button id="maybeBtn" onmouseover="moveAround()">May be 😜</button>
     </div>
 
-    <div id="proposal">
-        <h1>Forever Begins Here ✨</h1>
-
-        <div class="final-message">
-            <div class="reveal-line">Shree…</div>
-            <div class="reveal-line">Some people become habits, some become memories —</div>
-            <div class="reveal-line">but you became <em>home</em>.</div>
-            <div class="reveal-line">My heart chooses you — today, tomorrow, always ❤️</div>
-        </div>
+    <div id="celebration">
+        <h1>She Said YES 🎉💖</h1>
+        <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" alt="Celebration">
+        <p style="color:white;font-size:1.3rem;margin-top:15px;">
+            This moment means everything ❤️
+        </p>
     </div>
+
 </div>
 
-<!-- MUSIC -->
 <audio id="music" loop>
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
 </audio>
 
-<!-- HEARTBEAT -->
-<audio id="beat">
-    <source src="https://www.soundjay.com/human/heartbeat-01.mp3">
-</audio>
-
 <script>
-/* Typing */
-const text = "Will you be my Valentine? 💫";
-let i = 0;
-const typing = document.getElementById("typing");
+/* MAY BE moves around (bounded) */
+function moveAround() {
+    const btn = document.getElementById("maybeBtn");
+    const container = document.getElementById("buttons");
 
-(function type(){
-    if(i < text.length){
-        typing.innerHTML += text.charAt(i++);
-        setTimeout(type, 90);
-    }
-})();
+    const maxX = container.clientWidth - btn.offsetWidth;
+    const maxY = container.clientHeight - btn.offsetHeight;
 
-/* Maybe button escape */
-function runAway(){
-    const m = document.getElementById("maybeBtn");
-    m.style.left = Math.random()*(window.innerWidth-120)+"px";
-    m.style.top  = Math.random()*(window.innerHeight-120)+"px";
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
 }
 
-/* YES CLICK */
-function sayYes(){
-    document.getElementById("buttons").style.display="none";
-    document.getElementById("proposal").style.display="block";
+/* YES clicked */
+function sayYes() {
+    document.getElementById("title").style.display = "none";
+    document.getElementById("typing").style.display = "none";
+    document.getElementById("buttons").style.display = "none";
 
-    document.getElementById("overlay").style.opacity="1";
-    document.body.classList.add("blur");
+    document.getElementById("celebration").style.display = "block";
+    document.getElementById("music").play();
 
-    const music = document.getElementById("music");
-    music.volume = 0;
-    music.play();
-
-    const beat = document.getElementById("beat");
-    beat.play();
-
-    /* Fade in music */
-    let v = 0;
-    const fade = setInterval(()=>{
-        if(v < 0.8){
-            v += 0.02;
-            music.volume = v;
-        } else clearInterval(fade);
-    }, 120);
-
-    setTimeout(()=>{ hearts(); }, 1200);
-    setTimeout(()=>{ fireworks(); }, 4200);
+    hearts();
+    fireworks();
 }
 
 /* Hearts */
-function hearts(){
-    setInterval(()=>{
-        const h=document.createElement("div");
-        h.className="heart";
-        h.innerHTML="❤️";
-        h.style.left=Math.random()*window.innerWidth+"px";
-        h.style.bottom="0";
-        h.style.fontSize=(20+Math.random()*30)+"px";
+function hearts() {
+    setInterval(() => {
+        const h = document.createElement("div");
+        h.className = "heart";
+        h.innerHTML = "❤️";
+        h.style.left = Math.random() * window.innerWidth + "px";
+        h.style.bottom = "0";
+        h.style.fontSize = (20 + Math.random() * 30) + "px";
         document.body.appendChild(h);
-        setTimeout(()=>h.remove(),7000);
-    },180);
+        setTimeout(() => h.remove(), 6000);
+    }, 200);
 }
 
 /* Fireworks */
-function fireworks(){
-    setInterval(()=>{
-        for(let i=0;i<12;i++){
-            const f=document.createElement("div");
-            f.className="firework";
-            f.style.left=Math.random()*window.innerWidth+"px";
-            f.style.top=Math.random()*window.innerHeight+"px";
-            f.style.background=`hsl(${Math.random()*360},100%,65%)`;
+function fireworks() {
+    setInterval(() => {
+        for (let i = 0; i < 10; i++) {
+            const f = document.createElement("div");
+            f.className = "firework";
+            f.style.left = Math.random() * window.innerWidth + "px";
+            f.style.top = Math.random() * window.innerHeight + "px";
+            f.style.background = `hsl(${Math.random() * 360},100%,65%)`;
             document.body.appendChild(f);
-            setTimeout(()=>f.remove(),1600);
+            setTimeout(() => f.remove(), 1500);
         }
-    },240);
+    }, 250);
 }
 </script>
 
 </body>
 </html>
+
